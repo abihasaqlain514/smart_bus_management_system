@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Smart Bus",
+    "slug": "smart-bus-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": { "image": "./assets/splash.png", "backgroundColor": "#1565C0" },
+    "android": {
+      "adaptiveIcon": { "foregroundImage": "./assets/adaptive-icon.png", "backgroundColor": "#1565C0" },
+      "package": "com.smartbus.app",
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDJUQPiup78pIxCWDLo-OMSXYgOubiVIb8"
+        }
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.smartbus.app",
+      "config": {
+        "googleMapsApiKey": "AIzaSyDJUQPiup78pIxCWDLo-OMSXYgOubiVIb8"
+      }
+    },
+    "plugins": [
+      "expo-location"
+    ]
+  }
+}

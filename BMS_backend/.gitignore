@@ -1,0 +1,54 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.pyo
+
+# ── Virtual environment ───────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ── Environment & Secrets — NEVER commit these ───────────────────────────────
+.env
+firebase-credentials.json
+*.pem
+*.key
+*.p12
+*.json.secret
+
+# ── Alembic ───────────────────────────────────────────────────────────────────
+# Keep migration files, ignore the compiled cache
+alembic/versions/__pycache__/
+
+# ── IDE & Editor ──────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Testing & Coverage ────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+.claude/
+.cursor/
+node_modules/

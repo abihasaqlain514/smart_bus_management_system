@@ -1,0 +1,175 @@
+# ════════════════════════════════════════════════════════════════════════════
+#  SmartBus FYP — root .gitignore
+#  Covers: FastAPI backend, React Native (Expo bare), Android build system
+# ════════════════════════════════════════════════════════════════════════════
+
+
+# ── SECRETS — NEVER commit these ─────────────────────────────────────────────
+# Backend environment files contain DB passwords and JWT secret keys
+.env
+.env.*
+!.env.example          # keep the example template
+
+# Firebase service account (has full admin access to Firebase project)
+firebase-credentials.json
+google-services.json
+GoogleService-Info.plist
+
+# Android signing keys
+*.keystore
+*.jks
+
+# Any generic certificate / private key files
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+
+
+# ── PYTHON ────────────────────────────────────────────────────────────────────
+# Virtual environments (both root and backend have one)
+.venv/
+venv/
+env/
+ENV/
+
+# Compiled bytecode — generated automatically, never meaningful in git
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyo
+
+# Distribution / packaging
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+MANIFEST
+
+# Test & coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+.tox/
+
+# mypy / pyright type-checker caches
+.mypy_cache/
+.pyright/
+
+
+# ── NODE / REACT NATIVE ───────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+
+# Metro bundler cache
+.metro-health-check*
+SmartBusApp/.metro/
+
+
+# ── EXPO ──────────────────────────────────────────────────────────────────────
+# .expo/ contains device list and per-machine settings — not shareable
+SmartBusApp/.expo/
+.expo-shared/
+
+# EAS build secrets
+eas-build-pre-install.sh
+
+
+# ── ANDROID BUILD SYSTEM ─────────────────────────────────────────────────────
+# Gradle wrapper downloads and caches (~hundreds of MB)
+.gradle/
+SmartBusApp/android/.gradle/
+
+# Compiled APK / AAB outputs
+SmartBusApp/android/app/build/
+SmartBusApp/android/build/
+*.apk
+*.aab
+
+# NDK / CMake build outputs
+.cxx/
+*.so
+
+# JVM crash dumps produced during OOM builds
+hs_err_pid*.log
+replay_pid*.log
+
+# Android local SDK path (machine-specific)
+SmartBusApp/android/local.properties
+
+
+# ── IDE & EDITOR ──────────────────────────────────────────────────────────────
+# JetBrains (IntelliJ / Android Studio)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# VS Code workspace state (keep .vscode/extensions.json if you want to share
+# recommended extensions, but never settings.json — it has local paths)
+.vscode/
+!.vscode/extensions.json
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+
+# ── AI ASSISTANT SESSION DATA ─────────────────────────────────────────────────
+# Claude, Cursor, Copilot etc. store conversation history — not project code
+.claude/
+.cursor/
+.copilot/
+
+
+# ── OS-GENERATED JUNK ────────────────────────────────────────────────────────
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+
+# ── LOGS & TEMP FILES ─────────────────────────────────────────────────────────
+*.log
+logs/
+*.tmp
+*.bak
+*.swp
+*.swo
+
+
+# ── PROJECT-SPECIFIC ──────────────────────────────────────────────────────────
+# The root .venv is the active one — the duplicate inside BMS_backend is waste
+BMS_backend/venv/
+
+# Alembic compiled migration cache (keep the .py migration files)
+BMS_backend/alembic/versions/__pycache__/
+
+# One-off migration / fix scripts that were run and are no longer needed
+# (comment these out if you want them in git for documentation purposes)
+# BMS_backend/add_stop_time.py
+# BMS_backend/fix_stale_status.py
+# BMS_backend/migrate_gender.py
+# BMS_backend/clean_gps.py
+# BMS_backend/cleanup_old_data.py
+# BMS_backend/show_ids.py

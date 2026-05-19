@@ -1,0 +1,34 @@
+# React Native / Expo (bare workflow)
+
+# Dependencies
+node_modules/
+
+# Expo cache
+.expo/
+.expo-shared/
+
+# Metro bundler
+.metro-health-check*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Native build outputs
+android/app/build/
+android/build/
+android/.gradle/
+android/local.properties
+android/hs_err_pid*.log
+ios/build/
+*.apk
+*.aab
+*.ipa
+
+# TypeScript
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
