@@ -10,18 +10,10 @@
     "android": {
       "adaptiveIcon": { "foregroundImage": "./assets/adaptive-icon.png", "backgroundColor": "#1565C0" },
       "package": "com.smartbus.app",
-      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyDJUQPiup78pIxCWDLo-OMSXYgOubiVIb8"
-        }
-      }
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
     },
     "ios": {
-      "bundleIdentifier": "com.smartbus.app",
-      "config": {
-        "googleMapsApiKey": "AIzaSyDJUQPiup78pIxCWDLo-OMSXYgOubiVIb8"
-      }
+      "bundleIdentifier": "com.smartbus.app"
     },
     "plugins": [
       "expo-location"

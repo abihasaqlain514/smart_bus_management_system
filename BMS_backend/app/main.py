@@ -1,3 +1,4 @@
+import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,6 +9,8 @@ from app.database import engine
 from app.middleware.audit_middleware import AuditMiddleware
 import app.models  # noqa: F401 — registers all ORM models with Base.metadata
 
+log = logging.getLogger(__name__)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -17,6 +20,20 @@ async def lifespan(app: FastAPI):
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
+    # ── Auto-seed routes/buses/drivers on every startup ─────────────────────
+    # Fresh deployments (e.g. a new Replit DB) start with an empty database.
+    # seed_university_routes.main() is idempotent — it upserts by
+    # route_number / bus_number / email, so running it on every boot is safe
+    # and keeps a redeployed backend populated without a manual step.
+    # Set AUTO_SEED_ROUTES=false to disable.
+    if os.getenv("AUTO_SEED_ROUTES", "true").lower() != "false":
+        try:
+            import seed_university_routes
+            await seed_university_routes.main()
+            log.info("Route auto-seed completed.")
+        except Exception:
+            log.exception("Route auto-seed failed — continuing startup without seeding.")
 
     watchdog = asyncio.create_task(
         trip_watchdog_loop(db_factory=AsyncSessionLocal),

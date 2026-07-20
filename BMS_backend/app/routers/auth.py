@@ -1,6 +1,7 @@
+import os
 from datetime import datetime, timezone, timedelta
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Header
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
@@ -179,7 +180,26 @@ async def driver_login(data: DriverLoginRequest, db: AsyncSession = Depends(get_
 # ── Admin ─────────────────────────────────────────────────────────────────────
 
 @router.post("/admin/register", status_code=201, summary="Admin registration")
-async def admin_register(data: AdminRegisterRequest, db: AsyncSession = Depends(get_db)):
+async def admin_register(
+    data: AdminRegisterRequest,
+    db: AsyncSession = Depends(get_db),
+    x_admin_setup_key: str | None = Header(default=None),
+):
+    # Anti-abuse: once at least one admin exists, block further open
+    # self-registration (this endpoint has no auth otherwise, so without this
+    # check any app user could grant themselves admin access). To add another
+    # admin after the first one, set ADMIN_SETUP_KEY on the server and pass
+    # the same value in the X-Admin-Setup-Key header.
+    any_admin = await db.execute(select(User).where(User.role == UserRole.admin))
+    if any_admin.scalars().first():
+        setup_key = os.getenv("ADMIN_SETUP_KEY")
+        if not setup_key or x_admin_setup_key != setup_key:
+            raise HTTPException(
+                status_code=403,
+                detail="Admin accounts already exist. Ask an existing admin, "
+                       "or provide a valid X-Admin-Setup-Key header.",
+            )
+
     existing = await db.execute(select(User).where(User.email == data.email))
     if existing.scalar_one_or_none():
         raise HTTPException(status_code=409, detail="Email already registered")

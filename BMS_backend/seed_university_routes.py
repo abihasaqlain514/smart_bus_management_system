@@ -282,7 +282,8 @@ async def main():
                 await db.flush()
                 # Delete old stops to re-seed clean
                 await db.execute(
-                    text(f"DELETE FROM stops WHERE route_id='{ro.id}'")
+                    text("DELETE FROM stops WHERE route_id = :route_id"),
+                    {"route_id": ro.id},
                 )
                 print(f"  Route exists (updated): {rd['number']}")
             else:

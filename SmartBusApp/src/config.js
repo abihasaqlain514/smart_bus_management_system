@@ -41,8 +41,7 @@ const HOST = IS_EMULATOR
 //
 
 // ✅ UPDATED FOR REPLIT DEPLOYMENT
-// Change [YOUR-REPLIT-URL] to your actual backend Replit URL
-const REPLIT_BACKEND_URL = 'https://[YOUR-REPLIT-URL].replit.dev';
+const REPLIT_BACKEND_URL = 'https://smartbusmanagementsystem--abihasaqlain514.replit.app';
 const LOCAL_BACKEND_URL = `http://${HOST}:8000`;
 
 // Use LOCAL_BACKEND_URL during development, REPLIT_BACKEND_URL for production
