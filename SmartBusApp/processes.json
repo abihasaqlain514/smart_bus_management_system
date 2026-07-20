@@ -1,0 +1,82 @@
+﻿[
+    {
+        "Id":  21276,
+        "ProcessName":  "cmd",
+        "Path":  "C:\\WINDOWS\\system32\\cmd.exe"
+    },
+    {
+        "Id":  2296,
+        "ProcessName":  "node",
+        "Path":  "C:\\Program Files\\nodejs\\node.exe"
+    },
+    {
+        "Id":  6048,
+        "ProcessName":  "node",
+        "Path":  "C:\\Program Files\\nodejs\\node.exe"
+    },
+    {
+        "Id":  10912,
+        "ProcessName":  "node",
+        "Path":  "C:\\Program Files\\nodejs\\node.exe"
+    },
+    {
+        "Id":  11188,
+        "ProcessName":  "node",
+        "Path":  "C:\\Program Files\\nodejs\\node.exe"
+    },
+    {
+        "Id":  14768,
+        "ProcessName":  "node",
+        "Path":  "C:\\Program Files\\nodejs\\node.exe"
+    },
+    {
+        "Id":  19168,
+        "ProcessName":  "node",
+        "Path":  "C:\\Program Files\\nodejs\\node.exe"
+    },
+    {
+        "Id":  21356,
+        "ProcessName":  "node",
+        "Path":  "C:\\Program Files\\nodejs\\node.exe"
+    },
+    {
+        "Id":  21540,
+        "ProcessName":  "node",
+        "Path":  "C:\\Program Files\\nodejs\\node.exe"
+    },
+    {
+        "Id":  21816,
+        "ProcessName":  "node",
+        "Path":  "C:\\Program Files\\nodejs\\node.exe"
+    },
+    {
+        "Id":  1812,
+        "ProcessName":  "powershell",
+        "Path":  "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    },
+    {
+        "Id":  8596,
+        "ProcessName":  "powershell",
+        "Path":  "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    },
+    {
+        "Id":  9776,
+        "ProcessName":  "powershell",
+        "Path":  "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    },
+    {
+        "Id":  10056,
+        "ProcessName":  "powershell",
+        "Path":  "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    },
+    {
+        "Id":  17340,
+        "ProcessName":  "powershell",
+        "Path":  "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    },
+    {
+        "Id":  24528,
+        "ProcessName":  "powershell",
+        "Path":  "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    }
+]

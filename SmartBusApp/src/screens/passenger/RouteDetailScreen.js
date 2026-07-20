@@ -108,14 +108,40 @@ export default function RouteDetailScreen({ route, navigation }) {
       const stopsData = sRes?.data ?? [];
       setStops(stopsData);
       stopsRef.current = stopsData;
-      if (bRes) setBuses(bRes.data ?? []);
+      const busData = Array.isArray(bRes?.data) ? bRes.data : [];
+      setBuses(busData);
 
       if (mapReady.current && stopsData.length) pushStopsToMap(stopsData);
+
+      // Push live bus positions onto the map
+      if (mapReady.current) {
+        busData.forEach(b => {
+          if (b.latitude && b.longitude) {
+            mapRef.current?.addBus(b.bus_id, Number(b.latitude), Number(b.longitude), b.bus_number);
+          }
+        });
+      }
     } catch (_) {}
     finally { setLoading(false); setRefresh(false); }
   }, [routeId]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+    // Poll bus positions every 5 seconds so map updates live
+    const interval = setInterval(async () => {
+      try {
+        const bRes = await passengerApi.getRouteBuses(routeId);
+        const busData = Array.isArray(bRes?.data) ? bRes.data : [];
+        setBuses(busData);
+        busData.forEach(b => {
+          if (b.latitude && b.longitude && mapReady.current) {
+            mapRef.current?.updateBus(b.bus_id, Number(b.latitude), Number(b.longitude));
+          }
+        });
+      } catch (_) {}
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [load]);
 
   const pushStopsToMap = (data) => {
     const valid = data.filter(s => s.latitude && s.longitude &&

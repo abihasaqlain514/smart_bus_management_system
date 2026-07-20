@@ -23,11 +23,6 @@ buildscript {
 
 apply plugin: "com.facebook.react.rootproject"
 
-// Redirect ALL subproject build dirs outside OneDrive to avoid sync file-lock errors
-allprojects {
-    buildDir = "C:/AndroidBuilds/SmartBusApp/${project.name}/build"
-}
-
 allprojects {
     repositories {
         maven {

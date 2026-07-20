@@ -48,7 +48,21 @@ export default function ParentDashboard() {
         parentApi.getChildren().catch(() => null),
         parentApi.myNotifications().catch(() => null),
       ]);
-      if (cRes) setChildren(cRes.data);
+      if (cRes) {
+        setChildren(cRes.data);
+        // Automatically fetch tracking data for all children
+        const trackingPromises = cRes.data.map(child =>
+          parentApi.trackChild(child.child_id)
+            .then(res => ({ childId: child.child_id, data: res.data }))
+            .catch(() => ({ childId: child.child_id, data: null }))
+        );
+        const trackingResults = await Promise.all(trackingPromises);
+        const trackingMap = {};
+        trackingResults.forEach(({ childId, data }) => {
+          if (data) trackingMap[childId] = data;
+        });
+        setTracking(trackingMap);
+      }
       if (nRes) setNotifs(nRes.data);
     } catch (_) {}
   }, []);
@@ -67,9 +81,26 @@ export default function ParentDashboard() {
       return Alert.alert('Missing', 'Enter the child\'s University ID.');
     setLinkBusy(true);
     try {
-      await parentApi.linkChild(link);
-      Alert.alert('✅ Child linked!', 'You can now track their bus location.');
+      const res = await parentApi.linkChild(link);
+      const newChild = res.data;
+      Alert.alert('✅ Child linked!', 'Fetching their bus location...');
       setLink({ university_id: '', relationship_type: 'father' });
+      
+      // Fetch tracking data immediately for the new child
+      try {
+        const trackRes = await parentApi.trackChild(newChild.child_id);
+        if (trackRes.data) {
+          setTracking(t => ({ ...t, [newChild.child_id]: trackRes.data }));
+          // Auto-open map if GPS data is available
+          if (trackRes.data.latitude && trackRes.data.longitude) {
+            setMapOpen(newChild.child_id);
+          }
+        }
+      } catch (e) {
+        console.log('Could not fetch tracking data immediately', e);
+      }
+      
+      // Reload all children and tracking
       load();
     } catch (e) { showError(e); }
     finally { setLinkBusy(false); }
@@ -128,6 +159,14 @@ export default function ParentDashboard() {
     const data = tracking[childId];
     if (data) pushToMap(ref, data);
   };
+
+  // When map opens or tracking data updates, refresh the map
+  useEffect(() => {
+    if (mapOpen && mapRefs.current[mapOpen]) {
+      const data = tracking[mapOpen];
+      if (data) pushToMap(mapRefs.current[mapOpen], data);
+    }
+  }, [mapOpen, tracking]);
 
   // ── mark notification read ────────────────────────────────────────────────
   const markRead = async (id) => {
