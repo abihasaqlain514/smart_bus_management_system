@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
+import os
 
 from app.database import engine
 from app.middleware.audit_middleware import AuditMiddleware
@@ -44,13 +45,28 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# ── CORS — open for React Native dev; tighten origins in production ───────────
+# ── CORS Configuration ─────────────────────────────────────────────────────────
+#
+# Production: Restrict to known domains (Replit frontend + any other trusted origins)
+# Development: Allow localhost for local testing
+#
+# Environment variable format:
+#   ALLOWED_ORIGINS = https://frontend.replit.dev,https://backend.replit.dev,http://localhost:3000
+#
+# If not set, defaults to localhost for development
+#
+ALLOWED_ORIGINS_STR = os.getenv(
+    "ALLOWED_ORIGINS",
+    "http://localhost:3000,http://localhost:8000,http://localhost:8081,http://127.0.0.1:8000"
+)
+ALLOWED_ORIGINS = [origin.strip() for origin in ALLOWED_ORIGINS_STR.split(",")]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "Accept"],
 )
 
 app.add_middleware(AuditMiddleware)

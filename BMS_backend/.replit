@@ -1,0 +1,14 @@
+# SmartBusApp Backend — Replit Configuration
+
+# ─── Run Command ──────────────────────────────────────────────────────────────
+# Starts FastAPI server on port 8000
+# --host 0.0.0.0 makes it accessible externally (needed for Replit)
+run = "uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+# ─── Package Manager ──────────────────────────────────────────────────────────
+# Tells Replit to use Python and pip
+package.language = "python314"
+
+# ─── Modules/Packages that Replit should detect ────────────────────────────────
+# requirements.txt will be auto-detected and installed
+modules = ["python-3.14", "python3-pip"]
