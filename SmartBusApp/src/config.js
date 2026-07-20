@@ -14,11 +14,29 @@ import { Platform } from 'react-native';
 
 const WIFI_IP = '172.20.0.1';   // your PC's IPv4 — update if WiFi changes
 
-// Platform.constants.isEmulator is built into React Native 0.63+
-// true  → Pixel emulator / AVD running on your laptop
-// false → real physical phone
+// NOTE: Platform.constants.isEmulator is NOT a real React Native API on
+// Android (only exists on iOS-style checks people copy-paste from
+// elsewhere). It's always undefined here, so the old check below always
+// evaluated to false — meaning the app always fell through to 'localhost',
+// which inside an Android emulator points at the emulator itself, not your
+// PC. That's why API calls silently failed and screens showed empty lists.
+//
+// Real Android emulators (AVD / Android Studio) report a Build.FINGERPRINT
+// or MODEL containing telltale strings like "generic", "sdk_gphone", or
+// "emulator". This heuristic needs no extra native module (avoids another
+// gradle rebuild) and is what most RN apps use in practice.
+const _brand = Platform.constants?.Brand?.toLowerCase() ?? '';
+const _model = Platform.constants?.Model?.toLowerCase() ?? '';
+const _fingerprint = Platform.constants?.Fingerprint?.toLowerCase() ?? '';
 const IS_EMULATOR =
-  Platform.OS === 'android' && !!Platform.constants?.isEmulator;
+  Platform.OS === 'android' &&
+  (
+    _brand === 'generic' ||
+    _model.includes('sdk') ||
+    _model.includes('emulator') ||
+    _fingerprint.includes('generic') ||
+    _fingerprint.includes('emulator')
+  );
 
 const HOST = IS_EMULATOR
   ? '10.0.2.2'    // emulator: QEMU routes this to host machine — no setup needed
